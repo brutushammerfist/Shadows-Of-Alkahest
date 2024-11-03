@@ -1,0 +1,96 @@
+[gd_scene load_steps=7 format=3 uid="uid://dat88n6cnyn8a"]
+
+[ext_resource type="Script" path="res://scripts/UI/credits.gd" id="1_kf6ew"]
+[ext_resource type="Texture2D" uid="uid://5cncc3gcfdea" path="res://assets/images/ui/ui_backgrounds.png" id="2_uec5o"]
+[ext_resource type="FontFile" uid="uid://b7t3d5u8ie0gp" path="res://assets/images/ui/DungeonFont.ttf" id="3_bgn7j"]
+[ext_resource type="Theme" uid="uid://dyugk3om4he7e" path="res://button_texture.tres" id="4_ysrg6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mtkmp"]
+font = ExtResource("3_bgn7j")
+font_size = 64
+
+[sub_resource type="Theme" id="Theme_8juat"]
+default_font = ExtResource("3_bgn7j")
+default_font_size = 36
+
+[node name="Controls" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kf6ew")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_uec5o")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -115.0
+offset_top = 27.0
+offset_right = 116.0
+offset_bottom = 92.0
+grow_horizontal = 2
+text = "CONTROLS"
+label_settings = SubResource("LabelSettings_mtkmp")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -443.0
+offset_top = -225.0
+offset_right = 443.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8juat")
+bbcode_enabled = true
+text = "[center]
+Aiming - Mouse
+
+Dagger Attack - Left Mouse Button
+
+Alchemical Attack - Right Mouse Button
+
+Balsam of Soot (Heal) - Q
+
+Dash/Blink - Spacebar
+[/center]"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -43.0
+offset_top = -73.0
+offset_right = 49.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_ysrg6")
+action_mode = 0
+text = "Back"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

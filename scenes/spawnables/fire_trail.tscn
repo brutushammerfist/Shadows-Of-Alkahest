@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://3gsmn61f8gdb"]
+
+[ext_resource type="Texture2D" uid="uid://daetvafx8kndg" path="res://assets/images/enemies/bosses/primum_ignis.png" id="1_wohxi"]
+[ext_resource type="Script" path="res://scripts/spawnables/fire_trail.gd" id="1_wycv8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyan3"]
+atlas = ExtResource("1_wohxi")
+region = Rect2(0, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wk5px"]
+atlas = ExtResource("1_wohxi")
+region = Rect2(64, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfrcn"]
+atlas = ExtResource("1_wohxi")
+region = Rect2(128, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ygtd"]
+atlas = ExtResource("1_wohxi")
+region = Rect2(192, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dn2lf"]
+atlas = ExtResource("1_wohxi")
+region = Rect2(256, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_21wdv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyan3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wk5px")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfrcn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ygtd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dn2lf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t38lt"]
+size = Vector2(60, 64)
+
+[node name="FireTrail" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_wycv8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_21wdv")
+autoplay = "default"
+frame_progress = 0.199077
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_t38lt")
+
+[node name="BurnTick" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="BurnTick" to="." method="_on_burn_tick_timeout"]

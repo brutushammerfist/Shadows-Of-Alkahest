@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dutq2351ovhcu"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 05 - Asturias, Suite espanola V (Albeniz).ogg-d9a8db47cd75fe4928495252d7052991.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - Concerto Pack - 05 - Asturias, Suite espanola V (Albeniz).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 05 - Asturias, Suite espanola V (Albeniz).ogg-d9a8db47cd75fe4928495252d7052991.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

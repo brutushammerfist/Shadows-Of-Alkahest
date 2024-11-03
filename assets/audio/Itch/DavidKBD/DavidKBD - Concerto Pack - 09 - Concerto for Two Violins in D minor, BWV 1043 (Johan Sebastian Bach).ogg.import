@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://jr483326rf8t"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 09 - Concerto for Two Violins in D minor, BWV 1043 (Johan Sebastian Bach).ogg-c5760c85d6acac35432fc9c2db5d278b.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - Concerto Pack - 09 - Concerto for Two Violins in D minor, BWV 1043 (Johan Sebastian Bach).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 09 - Concerto for Two Violins in D minor, BWV 1043 (Johan Sebastian Bach).ogg-c5760c85d6acac35432fc9c2db5d278b.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

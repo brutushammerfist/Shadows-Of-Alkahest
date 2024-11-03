@@ -1,0 +1,207 @@
+[gd_scene load_steps=25 format=3 uid="uid://cihsy0cagqr6o"]
+
+[ext_resource type="Script" path="res://scripts/enemies/ens_primum.gd" id="1_ewh0c"]
+[ext_resource type="PackedScene" uid="uid://b2jnek4rfnt53" path="res://scenes/spawnables/wave.tscn" id="2_7ac23"]
+[ext_resource type="Shader" path="res://scripts/shaders/damage_flash.gdshader" id="2_831as"]
+[ext_resource type="Texture2D" uid="uid://26og4q3gchj0" path="res://assets/images/enemies/bosses/ens_primum.png" id="3_dgf3k"]
+[ext_resource type="PackedScene" uid="uid://bcsfmp0arl76x" path="res://scenes/spawnables/cyclone_debris.tscn" id="3_yoskb"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/components/health_component.tscn" id="4_gg57i"]
+[ext_resource type="PackedScene" uid="uid://m0rn0ncy7ynd" path="res://scenes/spawnables/boulder.tscn" id="4_p8dk1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22lx5"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j8pr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22lx5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fexdy"]
+resource_local_to_scene = true
+shader = ExtResource("2_831as")
+shader_parameter/flash_color = Color(1, 0.388235, 0.321569, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3srb"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxeav"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(64, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a16tl"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(128, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlyoj"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(192, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3riu"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vok42"]
+atlas = ExtResource("3_dgf3k")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s34vg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3srb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxeav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a16tl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlyoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3riu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlyoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a16tl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxeav")
+}],
+"loop": true,
+"name": &"blink",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vok42")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6r886"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jxjh7"]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ksndq"]
+_data = {
+"RESET": SubResource("Animation_6r886"),
+"flash": SubResource("Animation_jxjh7")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oaq2x"]
+radius = 65.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4tic"]
+radius = 750.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p43ah"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ou63p"]
+radius = 65.0
+
+[node name="EnsPrimum" type="CharacterBody2D" groups=["Boss", "Enemy"]]
+collision_layer = 4
+collision_mask = 20
+motion_mode = 1
+script = ExtResource("1_ewh0c")
+wave_prefab = ExtResource("2_7ac23")
+cyclone_debris_prefab = ExtResource("3_yoskb")
+boulder_prefab = ExtResource("4_p8dk1")
+display_name = "Ens Primum"
+boss_catalyst_to_grant = 0
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5j8pr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_fexdy")
+sprite_frames = SubResource("SpriteFrames_s34vg")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ksndq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oaq2x")
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_gg57i")]
+curr_health = 500.0
+max_health = 500.0
+
+[node name="GlobalCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="VisionShape" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_g4tic")
+
+[node name="ChargeTimer" type="Timer" parent="."]
+
+[node name="ChargeLifetime" type="Timer" parent="."]
+
+[node name="NoneArea" type="Area2D" parent="."]
+visible = false
+collision_mask = 4
+
+[node name="NoneCircle" type="CollisionShape2D" parent="NoneArea"]
+shape = SubResource("CircleShape2D_p43ah")
+
+[node name="CycloneParent" type="Node2D" parent="."]
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("CircleShape2D_ou63p")
+
+[connection signal="Dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

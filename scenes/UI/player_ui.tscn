@@ -1,0 +1,309 @@
+[gd_scene load_steps=19 format=3 uid="uid://bw72fwdrx0h6x"]
+
+[ext_resource type="Script" path="res://scripts/UI/health_bar.gd" id="1_islj6"]
+[ext_resource type="Texture2D" uid="uid://dbrm4ew00ww4i" path="res://assets/images/ui/ui_healthbar.png" id="1_n3btj"]
+[ext_resource type="Script" path="res://scripts/UI/cooldown_widget.gd" id="2_4n4nb"]
+[ext_resource type="Texture2D" uid="uid://da7odrg13tnam" path="res://assets/images/ui/ui_weapon_atk.png" id="2_a0tek"]
+[ext_resource type="Texture2D" uid="uid://dycbykk44b1qv" path="res://assets/images/ui/ui_health_empty.png" id="2_w07ha"]
+[ext_resource type="Script" path="res://scripts/UI/balsams_widget.gd" id="3_kkkem"]
+[ext_resource type="Texture2D" uid="uid://dhtbyyhgikfja" path="res://assets/images/ui/ui_health_full.png" id="3_sh6w2"]
+[ext_resource type="Texture2D" uid="uid://cil0hpesbji77" path="res://assets/images/ui/ui_alch_atk.png" id="4_sun5g"]
+[ext_resource type="Texture2D" uid="uid://n5it1k78nin3" path="res://assets/images/ui/ui_dash.png" id="5_kfett"]
+[ext_resource type="Texture2D" uid="uid://bxykug70s87na" path="res://assets/images/ui/ui_balsam_3.png" id="9_2bejw"]
+[ext_resource type="FontFile" uid="uid://b7t3d5u8ie0gp" path="res://assets/images/ui/DungeonFont.ttf" id="11_dhmqe"]
+
+[sub_resource type="Curve" id="Curve_kxevu"]
+_data = [Vector2(0.516484, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_t7ybx"]
+_data = [Vector2(0.423077, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_umkcr"]
+_data = [Vector2(0.494506, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_kpa53"]
+width = 64
+curve_x = SubResource("Curve_kxevu")
+curve_y = SubResource("Curve_t7ybx")
+curve_z = SubResource("Curve_umkcr")
+
+[sub_resource type="LabelSettings" id="LabelSettings_waf6a"]
+font_size = 40
+
+[sub_resource type="Theme" id="Theme_wd7vj"]
+default_font = ExtResource("11_dhmqe")
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_1p5yg"]
+default_font = ExtResource("11_dhmqe")
+default_font_size = 24
+
+[node name="PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBarBackground" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 374.0
+offset_bottom = 65.0
+texture = ExtResource("1_n3btj")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+offset_left = 29.0
+offset_top = 21.0
+offset_right = 367.0
+offset_bottom = 53.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("2_w07ha")
+texture_progress = ExtResource("3_sh6w2")
+script = ExtResource("1_islj6")
+
+[node name="CooldownsBackground" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -122.0
+offset_right = 302.0
+offset_bottom = -24.0
+grow_vertical = 0
+texture = ExtResource("1_n3btj")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Cooldowns" type="HBoxContainer" parent="CooldownsBackground"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -38.0
+offset_right = 81.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+
+[node name="WeaponAttack" type="TextureRect" parent="CooldownsBackground/Cooldowns"]
+layout_mode = 2
+texture = ExtResource("2_a0tek")
+script = ExtResource("2_4n4nb")
+
+[node name="Fuzzy" type="TextureRect" parent="CooldownsBackground/Cooldowns/WeaponAttack"]
+modulate = Color(1, 1, 1, 0.25098)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_top = 64.0
+offset_right = 64.0
+offset_bottom = 128.0
+texture = SubResource("CurveXYZTexture_kpa53")
+
+[node name="AlchAttack" type="TextureRect" parent="CooldownsBackground/Cooldowns"]
+layout_mode = 2
+texture = ExtResource("4_sun5g")
+script = ExtResource("2_4n4nb")
+
+[node name="Fuzzy" type="TextureRect" parent="CooldownsBackground/Cooldowns/AlchAttack"]
+modulate = Color(1, 1, 1, 0.25098)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_top = 64.0
+offset_right = 64.0
+offset_bottom = 128.0
+texture = SubResource("CurveXYZTexture_kpa53")
+
+[node name="Dash" type="TextureRect" parent="CooldownsBackground/Cooldowns"]
+layout_mode = 2
+texture = ExtResource("5_kfett")
+script = ExtResource("2_4n4nb")
+
+[node name="Fuzzy" type="TextureRect" parent="CooldownsBackground/Cooldowns/Dash"]
+modulate = Color(1, 1, 1, 0.25098)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_top = 64.0
+offset_right = 64.0
+offset_bottom = 128.0
+texture = SubResource("CurveXYZTexture_kpa53")
+
+[node name="Balsams" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 1
+offset_left = 139.0
+offset_top = 56.0
+offset_right = 243.0
+offset_bottom = 89.0
+texture = ExtResource("9_2bejw")
+script = ExtResource("3_kkkem")
+
+[node name="Label" type="Label" parent="Balsams"]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "3"
+label_settings = SubResource("LabelSettings_waf6a")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LocationPopup" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -215.0
+offset_right = 270.0
+offset_bottom = -68.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wd7vj")
+bbcode_enabled = true
+text = "[center]Planum Terrae
+-----------------------
+Plane of the Earth[/center]"
+fit_content = true
+
+[node name="BossHealthBar" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HealthBar" type="TextureProgressBar" parent="BossHealthBar"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -348.0
+offset_top = -117.0
+offset_right = 350.0
+offset_bottom = -85.0
+grow_horizontal = 0
+value = 100.0
+fill_mode = 1
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("2_w07ha")
+texture_progress = ExtResource("3_sh6w2")
+script = ExtResource("1_islj6")
+
+[node name="BossTitle" type="RichTextLabel" parent="BossHealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -216.0
+offset_top = -170.0
+offset_right = 230.0
+offset_bottom = -139.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wd7vj")
+bbcode_enabled = true
+fit_content = true
+
+[node name="BossTitle2" type="Label" parent="BossHealthBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -206.0
+offset_top = 8.0
+offset_right = -166.0
+offset_bottom = 31.0
+grow_horizontal = 0
+
+[node name="InteractPopup" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -183.0
+offset_top = -225.0
+offset_right = 185.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_1p5yg")
+bbcode_enabled = true
+text = "[center]
+[outline_color=black]
+[outline_size=8]
+Press 'F' to Interact.
+[/outline_size]
+[/outline_color]
+[/center]"
+fit_content = true
+
+[node name="BossDefeatPopup" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -356.5
+offset_right = 270.0
+offset_bottom = -209.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wd7vj")
+bbcode_enabled = true
+text = "[center]
+[outline_color=black]
+[outline_size=8]
+Catalyst Claimed
+[/outline_size]
+[/outline_color]
+[/center]"
+fit_content = true

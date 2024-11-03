@@ -1,0 +1,147 @@
+[gd_scene load_steps=9 format=3 uid="uid://dms0nomds6f25"]
+
+[ext_resource type="Script" path="res://scripts/UI/main_menu.gd" id="1_32pu6"]
+[ext_resource type="Theme" uid="uid://dyugk3om4he7e" path="res://button_texture.tres" id="2_0ble4"]
+[ext_resource type="Texture2D" uid="uid://5cncc3gcfdea" path="res://assets/images/ui/ui_backgrounds.png" id="2_end3e"]
+[ext_resource type="FontFile" uid="uid://b7t3d5u8ie0gp" path="res://assets/images/ui/DungeonFont.ttf" id="4_65kv3"]
+[ext_resource type="PackedScene" uid="uid://bjt5by44txro" path="res://scenes/UI/credits.tscn" id="5_5fyfb"]
+[ext_resource type="PackedScene" uid="uid://dat88n6cnyn8a" path="res://scenes/UI/controls.tscn" id="6_nl4y6"]
+
+[sub_resource type="Theme" id="Theme_h63xd"]
+default_font = ExtResource("4_65kv3")
+default_font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_q2rqf"]
+font = ExtResource("4_65kv3")
+font_size = 48
+
+[node name="MainMenu" type="Control" groups=["UIScene"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_32pu6")
+
+[node name="TitleBackground" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_end3e")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -43.0
+offset_right = 72.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0ble4")
+action_mode = 0
+text = "Play!"
+
+[node name="CreditsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = 131.0
+offset_right = 72.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0ble4")
+action_mode = 0
+text = "Credits"
+
+[node name="ControlsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = 44.0
+offset_right = 72.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0ble4")
+action_mode = 0
+text = "Controls"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -268.0
+offset_top = -326.0
+offset_right = 274.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_h63xd")
+bbcode_enabled = true
+text = "[center]
+[outline_color=black]
+[outline_size=64]
+SHADOWS 
+OF ALKAHEST
+[/outline_size]
+[/outline_color]
+[/center]"
+fit_content = true
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -150.0
+offset_right = 267.0
+offset_bottom = -92.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SHADOWS OF ALKAHEST"
+label_settings = SubResource("LabelSettings_q2rqf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Credits" parent="." instance=ExtResource("5_5fyfb")]
+visible = false
+layout_mode = 1
+
+[node name="Controls" parent="." instance=ExtResource("6_nl4y6")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="ControlsButton" to="." method="_on_controls_button_pressed"]

@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://byxqbahbsw30j"]
+
+[ext_resource type="Texture2D" uid="uid://cwnn7pw72kbek" path="res://assets/images/enemies/bosses/primum_aere.png" id="1_3ix0y"]
+[ext_resource type="Script" path="res://scripts/spawnables/cannon.gd" id="1_cpvom"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brsoj"]
+atlas = ExtResource("1_3ix0y")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b16bv"]
+atlas = ExtResource("1_3ix0y")
+region = Rect2(64, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7plp"]
+atlas = ExtResource("1_3ix0y")
+region = Rect2(128, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oq5ir"]
+atlas = ExtResource("1_3ix0y")
+region = Rect2(192, 448, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vubbl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brsoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b16bv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7plp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oq5ir")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ad252"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_84f7k"]
+radius = 17.0
+height = 58.0
+
+[node name="Cannon" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_cpvom")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vubbl")
+autoplay = "default"
+frame_progress = 0.708564
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_ad252")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_84f7k")
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

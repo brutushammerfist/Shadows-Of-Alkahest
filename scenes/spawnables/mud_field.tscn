@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5hx30imfb880"]
+
+[ext_resource type="Script" path="res://scripts/spawnables/mud_field.gd" id="1_1npge"]
+[ext_resource type="Texture2D" uid="uid://dfyq3s7agoe8c" path="res://assets/images/spawnables/mud_field.png" id="2_10t7k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_57pt8"]
+radius = 32.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ao2b"]
+atlas = ExtResource("2_10t7k")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yuhra"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ao2b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="MudField" type="Area2D"]
+collision_mask = 4
+script = ExtResource("1_1npge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_57pt8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_yuhra")
+
+[node name="Lifetime" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

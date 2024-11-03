@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b0i7nsetr7uwb"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 03 - Les Toreadors from Carmen Suite No. 1 (Georges Bizet).ogg-7323e8416d8b90a67e4a868f51dcc1e6.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - Concerto Pack - 03 - Les Toreadors from Carmen Suite No. 1 (Georges Bizet).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 03 - Les Toreadors from Carmen Suite No. 1 (Georges Bizet).ogg-7323e8416d8b90a67e4a868f51dcc1e6.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

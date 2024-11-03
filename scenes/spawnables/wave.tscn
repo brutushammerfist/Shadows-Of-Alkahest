@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2jnek4rfnt53"]
+
+[ext_resource type="Texture2D" uid="uid://dribn0dk41njo" path="res://assets/images/enemies/bosses/primum_aquae.png" id="1_dbk5d"]
+[ext_resource type="Script" path="res://scripts/spawnables/wave.gd" id="1_putrw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rsmr7"]
+atlas = ExtResource("1_dbk5d")
+region = Rect2(0, 192, 128, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q7t5v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rsmr7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jeaf2"]
+size = Vector2(94, 46)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1t4n"]
+
+[node name="Wave" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_putrw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_q7t5v")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(-1, 7)
+shape = SubResource("RectangleShape2D_jeaf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o1t4n")
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

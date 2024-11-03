@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dxn4elxoiks6m"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 12 - Ride of The Valkyries (Richard Wagner).ogg-dc683429fd745a8887c047cce8155713.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - Concerto Pack - 12 - Ride of The Valkyries (Richard Wagner).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 12 - Ride of The Valkyries (Richard Wagner).ogg-dc683429fd745a8887c047cce8155713.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

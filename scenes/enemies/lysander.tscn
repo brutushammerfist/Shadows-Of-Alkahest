@@ -1,0 +1,502 @@
+[gd_scene load_steps=43 format=3 uid="uid://b5cgrkutmaodt"]
+
+[ext_resource type="Script" path="res://scripts/enemies/lysander_controller.gd" id="1_4cnuf"]
+[ext_resource type="Shader" path="res://scripts/shaders/player.gdshader" id="2_w4wu2"]
+[ext_resource type="Texture2D" uid="uid://cv1x17m4ndrg6" path="res://assets/images/enemies/bosses/lysander.png" id="3_4i5mg"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/components/health_component.tscn" id="4_7x3tk"]
+[ext_resource type="Texture2D" uid="uid://qwqirwpdyitg" path="res://assets/images/attack_trail.png" id="4_vjiep"]
+[ext_resource type="Shader" path="res://scripts/shaders/heat_area.gdshader" id="6_f4l6y"]
+[ext_resource type="Texture2D" uid="uid://cuxmfch8b5n0t" path="res://assets/images/spawnables/heat.png" id="7_0xdde"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fexdy"]
+resource_local_to_scene = true
+shader = ExtResource("2_w4wu2")
+shader_parameter/border_threshold = Vector2(0.005, 0.005)
+shader_parameter/is_buff = false
+shader_parameter/damage_flash_color = Color(1, 0.388235, 0.321569, 1)
+shader_parameter/buff_color = Color(0.458824, 0.564706, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_we0ci"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xeecb"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7s3rx"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8j707"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4abj"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5lvr6"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucbk4"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7y6o"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdhj3"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7w0t"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swdkb"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eumvf"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywpwd"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wn4m1"]
+atlas = ExtResource("3_4i5mg")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s34vg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_we0ci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xeecb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7s3rx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8j707")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4abj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5lvr6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucbk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7y6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucbk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdhj3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7w0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swdkb")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eumvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywpwd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eumvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wn4m1")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6r886"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/is_buff")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/buff_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.458824, 0.564706, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ckuyw"]
+resource_name = "buffed"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/buff_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.458824, 0.564706, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:material:shader_parameter/is_buff")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_jxjh7"]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/is_buff")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ksndq"]
+_data = {
+"RESET": SubResource("Animation_6r886"),
+"buffed": SubResource("Animation_ckuyw"),
+"flash": SubResource("Animation_jxjh7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgivn"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ni3nw"]
+size = Vector2(10, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_612by"]
+atlas = ExtResource("4_vjiep")
+region = Rect2(0, 0, 30, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m80pe"]
+atlas = ExtResource("4_vjiep")
+region = Rect2(30, 0, 30, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afyvu"]
+atlas = ExtResource("4_vjiep")
+region = Rect2(60, 0, 30, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_71umw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_612by")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m80pe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afyvu")
+}],
+"loop": false,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4tic"]
+radius = 971.052
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1yu31"]
+resource_local_to_scene = true
+shader = ExtResource("6_f4l6y")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_demxe"]
+atlas = ExtResource("7_0xdde")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ahj8w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_demxe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_ju1q1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/flash_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jfh6a"]
+resource_name = "air_burst"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1.92523e-07, 0.64901, 0.979811, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_uhduc"]
+resource_name = "heat_flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/flash_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_71xfa"]
+_data = {
+"RESET": SubResource("Animation_ju1q1"),
+"air_burst": SubResource("Animation_jfh6a"),
+"heat_flash": SubResource("Animation_uhduc")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wmjce"]
+radius = 150.0
+
+[node name="Lysander" type="CharacterBody2D" groups=["Boss", "Enemy"]]
+z_index = 5
+collision_layer = 4
+collision_mask = 20
+motion_mode = 1
+script = ExtResource("1_4cnuf")
+display_name = "Lysander"
+is_melee = true
+boss_catalyst_to_grant = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_fexdy")
+sprite_frames = SubResource("SpriteFrames_s34vg")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.850534
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ksndq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_qgivn")
+
+[node name="WeaponAttackArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="WeaponAttack" type="CollisionShape2D" parent="WeaponAttackArea"]
+shape = SubResource("RectangleShape2D_ni3nw")
+disabled = true
+
+[node name="WeaponSwingPivot" type="Node2D" parent="."]
+
+[node name="WeaponSwing" type="AnimatedSprite2D" parent="WeaponSwingPivot"]
+position = Vector2(0, -60)
+sprite_frames = SubResource("SpriteFrames_71umw")
+
+[node name="TrailTimer" type="Timer" parent="WeaponSwingPivot"]
+wait_time = 0.5
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_7x3tk")]
+curr_health = 300.0
+max_health = 300.0
+
+[node name="GlobalCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisionArea" type="Area2D" parent="."]
+
+[node name="VisionShape" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_g4tic")
+
+[node name="HeatGFX" type="AnimatedSprite2D" parent="."]
+visible = false
+z_index = -5
+material = SubResource("ShaderMaterial_1yu31")
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_ahj8w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HeatGFX"]
+libraries = {
+"": SubResource("AnimationLibrary_71xfa")
+}
+
+[node name="AirArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+
+[node name="AirShape" type="CollisionShape2D" parent="AirArea"]
+shape = SubResource("CircleShape2D_wmjce")
+
+[node name="SteamBuff" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="WeaponAttackArea" to="." method="_on_weapon_attack_area_body_entered"]
+[connection signal="timeout" from="WeaponSwingPivot/TrailTimer" to="." method="_on_trail_timer_timeout"]
+[connection signal="Dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_entered" from="AirArea" to="." method="_on_air_area_body_entered"]
+[connection signal="body_exited" from="AirArea" to="." method="_on_air_area_body_exited"]
+[connection signal="timeout" from="SteamBuff" to="." method="_on_steam_buff_timeout"]

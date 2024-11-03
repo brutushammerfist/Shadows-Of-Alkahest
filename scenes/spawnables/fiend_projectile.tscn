@@ -1,0 +1,97 @@
+[gd_scene load_steps=12 format=3 uid="uid://b83qvy8rqjtv5"]
+
+[ext_resource type="Script" path="res://scripts/spawnables/fiend_projectile.gd" id="1_08n63"]
+[ext_resource type="Texture2D" uid="uid://cqm4pacugm5np" path="res://assets/images/enemies/spoder.png" id="2_a2jka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gmyo"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(0, 448, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7fyo"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(32, 448, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vra5j"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(0, 480, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfve7"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(32, 480, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m08m7"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(64, 480, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nv7qn"]
+atlas = ExtResource("2_a2jka")
+region = Rect2(96, 480, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dmhjo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gmyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7fyo")
+}],
+"loop": true,
+"name": &"channeling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vra5j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfve7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m08m7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nv7qn")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oipbn"]
+radius = 33.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_342wp"]
+radius = 33.0606
+
+[node name="FiendProjectile" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_08n63")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dmhjo")
+animation = &"flying"
+autoplay = "channeling"
+frame = 2
+frame_progress = 0.340931
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_oipbn")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("CircleShape2D_342wp")
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]

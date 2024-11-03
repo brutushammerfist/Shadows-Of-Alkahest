@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b44rar4ncxljt"
+path="res://.godot/imported/DavidKBD - Concerto Pack - 01 - Symphony No. 5 in C minor (Ludwig van Beethoven).ogg-393ea1e56e02fe675ebf7443db2babab.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - Concerto Pack - 01 - Symphony No. 5 in C minor (Ludwig van Beethoven).ogg"
+dest_files=["res://.godot/imported/DavidKBD - Concerto Pack - 01 - Symphony No. 5 in C minor (Ludwig van Beethoven).ogg-393ea1e56e02fe675ebf7443db2babab.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

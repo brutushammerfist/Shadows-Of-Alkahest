@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://j5x0ia7q27qc"]
+
+[ext_resource type="Texture2D" uid="uid://dribn0dk41njo" path="res://assets/images/enemies/bosses/primum_aquae.png" id="1_l7077"]
+[ext_resource type="Script" path="res://scripts/spawnables/water_tendril.gd" id="1_uuiwp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nj08a"]
+size = Vector2(130, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3r8p"]
+atlas = ExtResource("1_l7077")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcjtg"]
+atlas = ExtResource("1_l7077")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txojb"]
+atlas = ExtResource("1_l7077")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5xy1"]
+atlas = ExtResource("1_l7077")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmafj"]
+atlas = ExtResource("1_l7077")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fbnp"]
+atlas = ExtResource("1_l7077")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ev3gc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3r8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcjtg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txojb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5xy1")
+}],
+"loop": false,
+"name": &"crash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmafj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fbnp")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="WaterTendril" type="Area2D"]
+script = ExtResource("1_uuiwp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nj08a")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ev3gc")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

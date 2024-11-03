@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://m0rn0ncy7ynd"]
+
+[ext_resource type="Texture2D" uid="uid://tujwryxdhxej" path="res://assets/images/enemies/bosses/primum_terrae.png" id="1_2leln"]
+[ext_resource type="Script" path="res://scripts/spawnables/boulder.gd" id="1_e4pfs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0s26"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soaql"]
+atlas = ExtResource("1_2leln")
+region = Rect2(0, 448, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qvy6y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_soaql")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tamrb"]
+radius = 33.0606
+
+[node name="Boulder" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_e4pfs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r0s26")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qvy6y")
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(-1, 4)
+shape = SubResource("CircleShape2D_tamrb")
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

@@ -1,0 +1,195 @@
+[gd_scene load_steps=21 format=3 uid="uid://ddl3gcseijssc"]
+
+[ext_resource type="Script" path="res://scripts/enemies/large_blob_controller.gd" id="1_t82iv"]
+[ext_resource type="Shader" path="res://scripts/shaders/damage_flash.gdshader" id="2_v67nt"]
+[ext_resource type="Texture2D" uid="uid://bdjmfcs618m16" path="res://assets/images/enemies/blob.png" id="4_mgtne"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/components/health_component.tscn" id="4_r7dub"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fexdy"]
+resource_local_to_scene = true
+shader = ExtResource("2_v67nt")
+shader_parameter/flash_color = Color(1, 0.388235, 0.321569, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpheo"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g75np"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtaxs"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em8w2"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8art"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfdu3"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj1sm"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgcfx"]
+atlas = ExtResource("4_mgtne")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s34vg"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpheo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g75np")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtaxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em8w2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8art")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfdu3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj1sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tgcfx")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6r886"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jxjh7"]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ksndq"]
+_data = {
+"RESET": SubResource("Animation_6r886"),
+"flash": SubResource("Animation_jxjh7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgivn"]
+size = Vector2(228, 196)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4tic"]
+radius = 241.052
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j7ps8"]
+size = Vector2(200, 128)
+
+[node name="LargeBlob" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_t82iv")
+is_melee = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_fexdy")
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_s34vg")
+animation = &"death"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ksndq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qgivn")
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_r7dub")]
+curr_health = 50.0
+max_health = 50.0
+
+[node name="GlobalCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargeCooldown" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[node name="VisionArea" type="Area2D" parent="."]
+
+[node name="VisionShape" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_g4tic")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(-1, 31)
+shape = SubResource("RectangleShape2D_j7ps8")
+
+[node name="ChargeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargeLifetime" type="Timer" parent="."]
+one_shot = true
+
+[node name="AirTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="Dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="timeout" from="ChargeTimer" to="." method="_on_charge_timer_timeout"]
+[connection signal="timeout" from="ChargeLifetime" to="." method="_on_charge_lifetime_timeout"]
+[connection signal="timeout" from="AirTimer" to="." method="_on_air_timer_timeout"]

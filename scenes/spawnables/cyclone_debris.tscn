@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcsfmp0arl76x"]
+
+[ext_resource type="Script" path="res://scripts/spawnables/cyclone_debris.gd" id="1_savgq"]
+[ext_resource type="Texture2D" uid="uid://cwnn7pw72kbek" path="res://assets/images/enemies/bosses/primum_aere.png" id="2_k7srb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmrk0"]
+atlas = ExtResource("2_k7srb")
+region = Rect2(64, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4e0d"]
+atlas = ExtResource("2_k7srb")
+region = Rect2(128, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_paqe6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmrk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4e0d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uidug"]
+radius = 18.0
+
+[node name="CycloneDebris" type="Area2D"]
+script = ExtResource("1_savgq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_paqe6")
+autoplay = "default"
+frame = 1
+frame_progress = 0.981412
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uidug")
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

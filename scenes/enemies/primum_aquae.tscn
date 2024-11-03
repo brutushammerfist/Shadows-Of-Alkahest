@@ -1,0 +1,164 @@
+[gd_scene load_steps=18 format=3 uid="uid://cvtf5vm2t7mrw"]
+
+[ext_resource type="Script" path="res://scripts/enemies/primum_aquae.gd" id="1_lnvwx"]
+[ext_resource type="PackedScene" uid="uid://j5x0ia7q27qc" path="res://scenes/spawnables/water_tendril.tscn" id="2_cmyto"]
+[ext_resource type="PackedScene" uid="uid://b2jnek4rfnt53" path="res://scenes/spawnables/wave.tscn" id="3_3o5gm"]
+[ext_resource type="Texture2D" uid="uid://dribn0dk41njo" path="res://assets/images/enemies/bosses/primum_aquae.png" id="3_86x7f"]
+[ext_resource type="Shader" path="res://scripts/shaders/damage_flash.gdshader" id="3_knyqt"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/components/health_component.tscn" id="5_wvk82"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fexdy"]
+resource_local_to_scene = true
+shader = ExtResource("3_knyqt")
+shader_parameter/flash_color = Color(1, 0.388235, 0.321569, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pumxb"]
+atlas = ExtResource("3_86x7f")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogr2y"]
+atlas = ExtResource("3_86x7f")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4uep"]
+atlas = ExtResource("3_86x7f")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s34vg"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pumxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogr2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4uep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogr2y")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6r886"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jxjh7"]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ksndq"]
+_data = {
+"RESET": SubResource("Animation_6r886"),
+"flash": SubResource("Animation_jxjh7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgivn"]
+size = Vector2(88, 112)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4tic"]
+radius = 1000.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j7ps8"]
+size = Vector2(124, 128)
+
+[node name="PrimumAquae" type="CharacterBody2D" groups=["Boss", "Enemy"]]
+z_index = 5
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_lnvwx")
+tendril_prefab = ExtResource("2_cmyto")
+wave_prefab = ExtResource("3_3o5gm")
+display_name = "Primum Aquae"
+boss_catalyst_to_grant = 2
+stationary = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_fexdy")
+sprite_frames = SubResource("SpriteFrames_s34vg")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.484415
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ksndq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-1, -8)
+shape = SubResource("RectangleShape2D_qgivn")
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_wvk82")]
+curr_health = 300.0
+max_health = 300.0
+
+[node name="GlobalCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargeCooldown" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[node name="VisionArea" type="Area2D" parent="."]
+
+[node name="VisionShape" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_g4tic")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_j7ps8")
+
+[node name="ChargeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargeLifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="Dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

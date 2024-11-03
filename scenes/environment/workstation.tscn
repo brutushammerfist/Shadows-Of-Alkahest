@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://ys0ciebc1ljp"]
+
+[ext_resource type="Script" path="res://scripts/environment/workstation.gd" id="1_l0hv1"]
+[ext_resource type="Texture2D" uid="uid://b7mijx12jry" path="res://assets/images/workstation.png" id="2_akce6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vtlh"]
+atlas = ExtResource("2_akce6")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uhpyy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vtlh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gy80q"]
+radius = 27.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ydxmf"]
+radius = 101.178
+
+[node name="Workstation" type="StaticBody2D"]
+collision_layer = 16
+script = ExtResource("1_l0hv1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_uhpyy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gy80q")
+
+[node name="InteractableArea" type="Area2D" parent="." groups=["Interactable"]]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableArea"]
+shape = SubResource("CircleShape2D_ydxmf")
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(0, 58)
+
+[connection signal="body_entered" from="InteractableArea" to="." method="_on_interactable_area_body_entered"]
+[connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://e2mmjf8icuw7"
+path="res://.godot/imported/DavidKBD - 06 - Bach Brandenburg Concerto No. 3 in G Major BWV 1048 - Concerto2.ogg-0822c1882140387a5c702f3860ca4d19.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - 06 - Bach Brandenburg Concerto No. 3 in G Major BWV 1048 - Concerto2.ogg"
+dest_files=["res://.godot/imported/DavidKBD - 06 - Bach Brandenburg Concerto No. 3 in G Major BWV 1048 - Concerto2.ogg-0822c1882140387a5c702f3860ca4d19.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,175 @@
+[gd_scene load_steps=20 format=3 uid="uid://ctu0u21payvhi"]
+
+[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_gww3s"]
+[ext_resource type="Texture2D" uid="uid://clqvhffx3wtot" path="res://assets/images/prototyping.png" id="1_r1c0r"]
+[ext_resource type="PackedScene" uid="uid://dmbyep30hpf6u" path="res://scenes/fire_projectile.tscn" id="2_jpp8u"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/health_component.tscn" id="3_7pawf"]
+[ext_resource type="PackedScene" uid="uid://81kw13xfs6rj" path="res://scenes/lava_plume.tscn" id="3_s3doi"]
+[ext_resource type="PackedScene" uid="uid://c5hx30imfb880" path="res://scenes/mud_field.tscn" id="4_fd3xl"]
+[ext_resource type="PackedScene" uid="uid://bw72fwdrx0h6x" path="res://scenes/player_ui.tscn" id="6_657a2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x6qe"]
+atlas = ExtResource("1_r1c0r")
+region = Rect2(576, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k00u6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x6qe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7r06"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_08jwn"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1ayt"]
+size = Vector2(10, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3vkr0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_68gfq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2wwlh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rwdgo"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3xo23"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bjbru"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l8l55"]
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 8
+motion_mode = 1
+script = ExtResource("1_gww3s")
+fire_projectile = ExtResource("2_jpp8u")
+lava_plume = ExtResource("3_s3doi")
+lava_radius = 200.0
+mud_field = ExtResource("4_fd3xl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k00u6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_e7r06")
+
+[node name="HealDelay" type="Timer" parent="."]
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerUI" parent="CanvasLayer" instance=ExtResource("6_657a2")]
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_7pawf")]
+
+[node name="Cooldowns" type="Node" parent="."]
+
+[node name="DashCooldown" type="Timer" parent="Cooldowns"]
+one_shot = true
+
+[node name="WeaponAttackCooldown" type="Timer" parent="Cooldowns"]
+one_shot = true
+
+[node name="AlchAttackCooldown" type="Timer" parent="Cooldowns"]
+one_shot = true
+
+[node name="Buffs" type="Node" parent="."]
+
+[node name="WaterLifetime" type="Timer" parent="Buffs"]
+one_shot = true
+
+[node name="EarthLifetime" type="Timer" parent="Buffs"]
+one_shot = true
+
+[node name="SteamLifetime" type="Timer" parent="Buffs"]
+one_shot = true
+
+[node name="CloudLifetime" type="Timer" parent="Buffs"]
+one_shot = true
+
+[node name="HeatLifetime" type="Timer" parent="Buffs"]
+one_shot = true
+
+[node name="Intervals" type="Node" parent="."]
+
+[node name="WaterTick" type="Timer" parent="Intervals"]
+
+[node name="HeatTick" type="Timer" parent="Intervals"]
+
+[node name="InteractableArea" type="Area2D" parent="."]
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableArea"]
+shape = SubResource("RectangleShape2D_08jwn")
+
+[node name="WeaponAttackArea" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="WeaponAttack" type="CollisionShape2D" parent="WeaponAttackArea"]
+shape = SubResource("RectangleShape2D_a1ayt")
+
+[node name="NoneArea" type="Area2D" parent="."]
+visible = false
+collision_mask = 4
+
+[node name="NoneCircle" type="CollisionShape2D" parent="NoneArea"]
+shape = SubResource("CircleShape2D_3vkr0")
+
+[node name="AirArea" type="Area2D" parent="."]
+visible = false
+collision_mask = 4
+
+[node name="AirShape" type="CollisionShape2D" parent="AirArea"]
+shape = SubResource("CircleShape2D_68gfq")
+
+[node name="HeatArea" type="Area2D" parent="."]
+visible = false
+collision_mask = 4
+
+[node name="HeatShape" type="CollisionShape2D" parent="HeatArea"]
+shape = SubResource("CircleShape2D_2wwlh")
+
+[node name="LavaArea" type="Area2D" parent="."]
+visible = false
+
+[node name="LavaShape" type="CollisionShape2D" parent="LavaArea"]
+shape = SubResource("CircleShape2D_rwdgo")
+
+[node name="DustAreas" type="Node2D" parent="."]
+visible = false
+
+[node name="DustAreaLeft" type="Area2D" parent="DustAreas"]
+collision_mask = 4
+
+[node name="DustShapeLeft" type="CollisionShape2D" parent="DustAreas/DustAreaLeft"]
+shape = SubResource("CapsuleShape2D_3xo23")
+
+[node name="DustAreaCenter" type="Area2D" parent="DustAreas"]
+
+[node name="DustShapeCenter" type="CollisionShape2D" parent="DustAreas/DustAreaCenter"]
+shape = SubResource("CapsuleShape2D_bjbru")
+
+[node name="DustAreaRight" type="Area2D" parent="DustAreas"]
+
+[node name="DustShapeRight" type="CollisionShape2D" parent="DustAreas/DustAreaRight"]
+shape = SubResource("CapsuleShape2D_l8l55")
+
+[connection signal="timeout" from="HealDelay" to="." method="_on_heal_delay_timeout"]
+[connection signal="timeout" from="Buffs/WaterLifetime" to="." method="_on_water_lifetime_timeout"]
+[connection signal="timeout" from="Buffs/EarthLifetime" to="." method="_on_earth_lifetime_timeout"]
+[connection signal="timeout" from="Buffs/SteamLifetime" to="." method="_on_steam_lifetime_timeout"]
+[connection signal="timeout" from="Buffs/CloudLifetime" to="." method="_on_cloud_lifetime_timeout"]
+[connection signal="timeout" from="Buffs/HeatLifetime" to="." method="_on_heat_lifetime_timeout"]
+[connection signal="timeout" from="Intervals/WaterTick" to="." method="_on_water_tick_timeout"]
+[connection signal="timeout" from="Intervals/HeatTick" to="." method="_on_heat_tick_timeout"]

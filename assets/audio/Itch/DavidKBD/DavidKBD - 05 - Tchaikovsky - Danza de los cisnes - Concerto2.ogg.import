@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dqbrxc7yxufy6"
+path="res://.godot/imported/DavidKBD - 05 - Tchaikovsky - Danza de los cisnes - Concerto2.ogg-452839245562bf47ac913098b218a4a8.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/Itch/DavidKBD/DavidKBD - 05 - Tchaikovsky - Danza de los cisnes - Concerto2.ogg"
+dest_files=["res://.godot/imported/DavidKBD - 05 - Tchaikovsky - Danza de los cisnes - Concerto2.ogg-452839245562bf47ac913098b218a4a8.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

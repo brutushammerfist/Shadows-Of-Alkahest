@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccudh43gqe1os"]
+
+[ext_resource type="Texture2D" uid="uid://tujwryxdhxej" path="res://assets/images/enemies/bosses/primum_terrae.png" id="1_gwapc"]
+[ext_resource type="Script" path="res://scripts/spawnables/crystal_spike.gd" id="1_hr8kr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqluq"]
+size = Vector2(60, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5rr7"]
+atlas = ExtResource("1_gwapc")
+region = Rect2(64, 448, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w71ec"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5rr7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_jwclw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 0.1)]
+}
+
+[sub_resource type="Animation" id="Animation_a0lar"]
+resource_name = "spawn"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(0.5, 0.5), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a5qec"]
+_data = {
+"RESET": SubResource("Animation_jwclw"),
+"spawn": SubResource("Animation_a0lar")
+}
+
+[node name="CrystalSpike" type="Area2D"]
+scale = Vector2(0.1, 0.1)
+collision_layer = 2
+script = ExtResource("1_hr8kr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wqluq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_w71ec")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a5qec")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

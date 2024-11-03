@@ -1,0 +1,166 @@
+[gd_scene load_steps=19 format=3 uid="uid://dvq5cc7ad2qj4"]
+
+[ext_resource type="Script" path="res://scripts/enemies/primum_aere.gd" id="1_70d31"]
+[ext_resource type="PackedScene" uid="uid://bcsfmp0arl76x" path="res://scenes/spawnables/cyclone_debris.tscn" id="2_7fdf8"]
+[ext_resource type="Shader" path="res://scripts/shaders/damage_flash.gdshader" id="2_bdpxs"]
+[ext_resource type="PackedScene" uid="uid://byxqbahbsw30j" path="res://scenes/spawnables/cannon.tscn" id="3_bi58q"]
+[ext_resource type="Texture2D" uid="uid://cwnn7pw72kbek" path="res://assets/images/enemies/bosses/primum_aere.png" id="3_ka0gi"]
+[ext_resource type="PackedScene" uid="uid://dsmx1utubr8d7" path="res://scenes/components/health_component.tscn" id="4_3b57i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fexdy"]
+resource_local_to_scene = true
+shader = ExtResource("2_bdpxs")
+shader_parameter/flash_color = Color(1, 0.388235, 0.321569, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avi6l"]
+atlas = ExtResource("3_ka0gi")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ggmh"]
+atlas = ExtResource("3_ka0gi")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt78l"]
+atlas = ExtResource("3_ka0gi")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3knet"]
+atlas = ExtResource("3_ka0gi")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s34vg"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avi6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ggmh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt78l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3knet")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 2.0
+}]
+
+[sub_resource type="Animation" id="Animation_6r886"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jxjh7"]
+resource_name = "flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ksndq"]
+_data = {
+"RESET": SubResource("Animation_6r886"),
+"flash": SubResource("Animation_jxjh7")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qgivn"]
+size = Vector2(228, 196)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4tic"]
+radius = 2000.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j7ps8"]
+size = Vector2(124, 128)
+
+[node name="PrimumAere" type="CharacterBody2D" groups=["Boss", "Enemy"]]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_70d31")
+cyclone_debris_prefab = ExtResource("2_7fdf8")
+cannon_prefab = ExtResource("3_bi58q")
+display_name = "Primum Aere"
+boss_catalyst_to_grant = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_fexdy")
+sprite_frames = SubResource("SpriteFrames_s34vg")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0925589
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ksndq")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qgivn")
+
+[node name="ObjectParent" type="Node" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_3b57i")]
+curr_health = 300.0
+max_health = 300.0
+
+[node name="GlobalCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpecialCooldown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="VisionArea" type="Area2D" parent="."]
+
+[node name="VisionShape" type="CollisionShape2D" parent="VisionArea"]
+shape = SubResource("CircleShape2D_g4tic")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_j7ps8")
+
+[node name="ChargeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargeLifetime" type="Timer" parent="."]
+one_shot = true
+
+[node name="CycloneParent" type="Node2D" parent="."]
+
+[connection signal="Dead" from="HealthComponent" to="." method="_on_health_component_dead"]
+[connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
